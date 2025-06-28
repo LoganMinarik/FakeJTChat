@@ -27,3 +27,6 @@ The project consists of the following files:
 
 ## License
 This project is open-source and available for anyone to use and modify.
+
+## Notes
+This is less than functional, don't expect much :3
