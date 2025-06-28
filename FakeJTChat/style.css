@@ -1,0 +1,44 @@
+body {
+    font-family: sans-serif;
+    background-color: #18181b; /* Twitch dark theme background */
+    color: #d9d9d9; /* Twitch text color */
+}
+
+.container {
+    display: flex;
+    max-width: 800px;
+    margin: 50px auto;
+    border: 1px solid #3a3a3c; /* Twitch border color */
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.chat-area {
+    flex: 2;
+    background-color: #0e0e10; /* Twitch chat background */
+    padding: 20px;
+}
+
+.controls {
+    flex: 1;
+    background-color: #28282c; /* Twitch controls background */
+    padding: 20px;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #1e1e24; /* Twitch message background */
+    border-radius: 3px;
+}
+
+.username {
+    font-weight: bold;
+    color: #9146ff; /* Twitch username color (purple) */
+}
+
+.timestamp {
+    font-size: 0.8em;
+    color: #777;
+    margin-right: 5px;
+}

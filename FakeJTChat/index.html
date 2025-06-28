@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitch Message Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="chat-area" id="chat-area" style="flex: 2; background-color: #0e0e10; padding: 20px;">
+        <h2>Pre-made Messages</h2>
+        <!-- Pre-made messages will be displayed here -->
+    </div>
+    <div class="chat-area" id="live-chat-area" style="flex: 2; background-color: #0e0e10; padding: 20px;">
+        <h2>Live Chat</h2>
+        <!-- "Live" chat messages will be displayed here during the timer -->
+        <div id="live-chat-messages"></div> 
+    </div>
+    <div class="controls">
+        <h2>Message Controls</h2>
+        <label for="username">Username:</label>
+        <input type="text" id="username" value="ArtistUser"><br><br>
+
+        <label for="message">Message:</label>
+        <input type="text" id="message"><br><br>
+
+        <label for="time">Trigger Time (seconds):</label>
+        <input type="number" id="time" value="5"><br><br>
+
+        <button onclick="addMessage()">Add Message</button><br><br>
+
+        <button onclick="startTimer()">Start Timer</button>
+        <button onclick="stopTimer()">Stop Timer</button>
+        <button onclick="clearMessages()">Clear All Messages</button>
+        <p id="timer">Timer: 0 seconds</p>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

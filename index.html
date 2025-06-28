@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitch Message Simulator</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #18181b; /* Twitch dark theme background */
+            color: #d9d9d9; /* Twitch text color */
+        }
+        .container {
+            display: flex;
+            max-width: 800px;
+            margin: 50px auto;
+            border: 1px solid #3a3a3c; /* Twitch border color */
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .chat-area {
+            flex: 2;
+            background-color: #0e0e10; /* Twitch chat background */
+            padding: 20px;
+        }
+        .controls {
+            flex: 1;
+            background-color: #28282c; /* Twitch controls background */
+            padding: 20px;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 5px;
+            background-color: #1e1e24; /* Twitch message background */
+            border-radius: 3px;
+        }
+        .username {
+            font-weight: bold;
+            color: #9146ff; /* Twitch username color (purple) */
+        }
+        .timestamp {
+            font-size: 0.8em;
+            color: #777;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="chat-area" id="chat-area">
+        <h2>Pre-made Messages</h2>
+        <!-- Pre-made messages will be displayed here -->
+    </div>
+    <div class="chat-area" id="live-chat-area" style="flex: 2; background-color: #0e0e10; padding: 20px;">
+        <h2>Live Chat</h2>
+        <!-- "Live" chat messages will be displayed here during the timer -->
+        <div id="live-chat-messages"></div> 
+    </div>
+    <div class="controls">
+        <h2>Message Controls</h2>
+        <label for="username">Username:</label>
+        <input type="text" id="username" value="ArtistUser"><br><br>
+
+        <label for="message">Message:</label>
+        <input type="text" id="message"><br><br>
+
+        <label for="time">Trigger Time (seconds):</label>
+        <input type="number" id="time" value="5"><br><br>
+
+        <button onclick="addMessage()">Add Message</button><br><br>
+
+        <button onclick="startTimer()">Start Timer</button>
+        <button onclick="stopTimer()">Stop Timer</button>
+        <p id="timer">Timer: 0 seconds</p>
+    </div>
+</div>
+
+<script>
+    let messages = [];
+    let timerInterval;
+    let currentTime = 0;
+
+    function addMessage() {
+        const username = document.getElementById('username').value;
+        const message = document.getElementById('message').value;
+        const time = parseInt(document.getElementById('time').value);
+
+        if (username && message && !isNaN(time)) {
+            messages.push({ username, message, time });
+            displayMessages();
+            document.getElementById('message').value = ''; // Clear the message input after adding
+        }
+    }
+
+    function displayMessages() {
+        const chatArea = document.getElementById('chat-area');
+        chatArea.innerHTML = ''; // Clear previous messages
+
+        messages.forEach(msg => {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+
+            const timestampSpan = document.createElement('span');
+            timestampSpan.classList.add('timestamp');
+            timestampSpan.textContent = formatTime(msg.time); // Display trigger time
+            messageDiv.appendChild(timestampSpan);
+
+            const usernameSpan = document.createElement('span');
+            usernameSpan.classList.add('username');
+            usernameSpan.textContent = msg.username + ": ";
+            messageDiv.appendChild(usernameSpan);
+
+            const textSpan = document.createElement('span');
+            textSpan.textContent = msg.message;
+            messageDiv.appendChild(textSpan);
+
+            chatArea.appendChild(messageDiv);
+        });
+    }
+
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return minutes + ":" + (remainingSeconds < 10 ? "0" : "") + remainingSeconds;
+    }
+
+    function startTimer() {
+        currentTime = 0;
+        displayTimer();
+        timerInterval = setInterval(checkMessages, 1000);
+    }
+
+    function stopTimer() {
+        clearInterval(timerInterval);
+    }
+
+    function checkMessages() {
+        currentTime++;
+        displayTimer();
+
+        messages.forEach(msg => {
+            if (msg.time === currentTime) {
+                displayChatMessage(msg);
+            }
+        });
+    }
+
+    function displayChatMessage(msg) {
+        const chatArea = document.getElementById('live-chat-messages'); // Target the live chat area
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message');
+
+        const usernameSpan = document.createElement('span');
+        usernameSpan.classList.add('username');
+        usernameSpan.textContent = msg.username + ": ";
+        messageDiv.appendChild(usernameSpan);
+
+        const textSpan = document.createElement('span');
+        textSpan.textContent = msg.message;
+        messageDiv.appendChild(textSpan);
+
+        chatArea.appendChild(messageDiv); 
+        chatArea.scrollTop = chatArea.scrollHeight; // Auto-scroll to the bottom
+    }
+
+    function displayTimer() {
+        document.getElementById('timer').textContent = `Timer: ${currentTime} seconds`;
+    }
+</script>
+
+</body>
+</html>
+<!-- This HTML file simulates a Twitch-like chat interface with pre-made messages and a timer for live messages. -->
+<!-- It allows users to add messages with a username and trigger time, and displays them in a chat area. -->
+<!-- The timer functionality checks for messages to display at the specified times. -->
